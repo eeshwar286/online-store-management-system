@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">Plant Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('flower-plants')">Flower Plants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('vegetable-plants')">Vegetable Plants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('fruit-plants')">Fruit Plants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('blog')">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('manage-products')">Manage Products</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('cart')">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('login')">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('signup')">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="home" class="container mt-4">
+        <h1>Welcome to Plant Shop</h1>
+        <p>Your one-stop shop for all types of plants. Explore our collection of flower, vegetable, and fruit plants.</p>
+    </div>
+
+    <!-- Manage Products Section -->
+    <div id="manage-products" class="container mt-5 hidden">
+        <h2>Manage Products</h2>
+        <form id="product-form" onsubmit="addProduct(event)">
+            <div class="mb-3">
+                <label for="product-name" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="product-name" placeholder="Enter product name" required>
+            </div>
+            <div class="mb-3">
+                <label for="product-price" class="form-label">Price per Unit</label>
+                <input type="number" class="form-control" id="product-price" placeholder="Enter price" required>
+            </div>
+            <div class="mb-3">
+                <label for="uom" class="form-label">Unit of Measure</label>
+                <select class="form-select" id="uom" required>
+                    <option value="1">Per Piece</option>
+                    <option value="2">Per Kilogram</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+
+        <hr>
+
+        <h3>Product List</h3>
+        <ul id="product-list" class="list-group">
+            <!-- Product items will be dynamically added here -->
+        </ul>
+    </div>
+
+    <!-- Other Sections... -->
+    <!-- (flower-plants, vegetable-plants, fruit-plants, blog, cart, login, signup) -->
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2024 Plant Shop. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showPage(pageId) {
+            // Hide all sections
+            document.querySelectorAll('div[id]').forEach(div => div.classList.add('hidden'));
+
+            // Show the selected section
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        // Initially, show the home page
+        showPage('home');
+
+        // Add product functionality
+        function addProduct(event) {
+            event.preventDefault();
+
+            const productName = document.getElementById('product-name').value;
+            const productPrice = document.getElementById('product-price').value;
+            const uom = document.getElementById('uom').value;
+
+            // Add product to list
+            const productList = document.getElementById('product-list');
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.innerHTML = `
+                ${productName} - $${productPrice} (UOM: ${uom == '1' ? 'Per Piece' : 'Per Kilogram'})
+                <button class="btn btn-danger btn-sm" onclick="removeProduct(this)">Remove</button>
+            `;
+            productList.appendChild(listItem);
+
+            // Clear form inputs
+            document.getElementById('product-form').reset();
+        }
+
+        // Remove product functionality
+        function removeProduct(button) {
+            const productItem = button.parentNode;
+            productItem.remove();
+        }
+    </script>
+    <script src="manage_products.js"></script>
+
+</body>
+
+</html>
